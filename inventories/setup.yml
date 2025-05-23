@@ -1,7 +1,7 @@
 all:
   vars:
     ansible_user: admin
-    ansible_ssh_private_key_file: /Users/ali_nhs/Desktop/id_rsa_ali_nahas
+    ansible_ssh_private_key_file: ~/.ssh/id_rsa
   children:
     prod:
       hosts:
