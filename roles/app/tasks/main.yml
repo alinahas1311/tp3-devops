@@ -1,0 +1,12 @@
+- name: Launch demo app container
+  docker_container:
+    name: my_app
+    image: nginxdemos/hello
+    networks:
+      - name: myapp_network
+    ports:
+      - "3000:80"
+    restart_policy: always
+    state: started
+  vars:
+    ansible_python_interpreter: /usr/bin/python3

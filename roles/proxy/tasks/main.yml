@@ -1,0 +1,26 @@
+- name: Créer le dossier /opt/nginx
+  file:
+    path: /opt/nginx
+    state: directory
+    mode: 0755
+
+- name: Copier nginx.conf dans /opt/nginx
+  copy:
+    src: nginx.conf
+    dest: /opt/nginx/nginx.conf
+    mode: 0644
+
+- name: Lancer le conteneur proxy
+  docker_container:
+    name: my_proxy
+    image: nginx:alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - /opt/nginx:/etc/nginx:ro       # 🟢 ICI : on monte un dossier vers un dossier
+    networks:
+      - name: myapp_network
+    restart_policy: always
+    state: started
+  vars:
+    ansible_python_interpreter: /usr/bin/python3

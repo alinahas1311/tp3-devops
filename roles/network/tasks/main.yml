@@ -1,0 +1,6 @@
+- name: Create Docker network
+  docker_network:
+    name: myapp_network
+    state: present
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
