@@ -1,8 +1,7 @@
 all:
   vars:
     ansible_user: admin
-    ansible_ssh_private_key_file: ~/.ssh/id_rsa
-  children:
-    prod:
-      hosts:
-        ali.nahas.takima.cloud:
+    ansible_ssh_private_key_file: /Users/ali_nhs/.ssh/id_rsa_tp
+    ansible_python_interpreter: /usr/bin/python3
+  hosts:
+    ali.nahas.takima.cloud: {}

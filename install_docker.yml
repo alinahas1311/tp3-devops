@@ -3,7 +3,7 @@
   become: true
 
   tasks:
-    - name: Install required packages
+    - name: Installer les paquets nécessaires
       apt:
         name:
           - apt-transport-https
@@ -15,39 +15,38 @@
         state: latest
         update_cache: yes
 
-    - name: Add Docker GPG key
+    - name: Ajouter la clé GPG de Docker
       apt_key:
         url: https://download.docker.com/linux/debian/gpg
         state: present
 
-    - name: Add Docker APT repository
+    - name: Ajouter le dépôt Docker
       apt_repository:
         repo: "deb [arch=amd64] https://download.docker.com/linux/debian {{ ansible_facts['distribution_release'] }} stable"
         state: present
         update_cache: yes
 
-    - name: Install Docker
+    - name: Installer Docker
       apt:
         name: docker-ce
         state: present
 
-    - name: Install Python3 and pip3
+    - name: Installer Python3 et pip3
       apt:
         name:
           - python3
           - python3-pip
         state: present
 
-    - name: Create a virtual environment for Docker SDK
+    - name: Créer un venv pour Docker SDK
       command: python3 -m venv /opt/docker_venv
       args:
         creates: /opt/docker_venv
 
-    - name: Install Docker SDK for Python in virtual environment
+    - name: Installer SDK Docker dans le venv
       command: /opt/docker_venv/bin/pip install docker
 
-    - name: Make sure Docker is running
+    - name: Vérifier que Docker est démarré
       service:
         name: docker
         state: started
-      tags: docker

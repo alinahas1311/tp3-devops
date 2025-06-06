@@ -1,14 +1,12 @@
-- name: Launch PostgreSQL container
+- name: Lancer PostgreSQL
   docker_container:
-    name: my_postgres
+    name: my_postgres_db
     image: postgres:15
     env:
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypass
+      POSTGRES_PASSWORD: pwd
+      POSTGRES_USER: user
       POSTGRES_DB: mydb
-    networks:
-      - name: myapp_network
     state: started
     restart_policy: always
-  vars:
-    ansible_python_interpreter: /usr/bin/python3
+    networks:
+      - name: myapp_network

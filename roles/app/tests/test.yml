@@ -1,0 +1,13 @@
+- name: Lancer le backend
+  docker_container:
+    name: simple-api
+    image: nahasali/simpleapi-backend:latest
+    env:
+      DATABASE_HOST: my_postgres_db
+      DATABASE_PASSWORD: pwd
+    state: started
+    restart_policy: always
+    ports:
+      - "3000:3000"
+    networks:
+      - name: myapp_network

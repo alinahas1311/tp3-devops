@@ -1,26 +1,32 @@
-- name: Créer le dossier /opt/nginx
+---
+# roles/proxy/tasks/main.yml
+
+- name: Créer un dossier temporaire pour le httpd.conf sur la VM
   file:
-    path: /opt/nginx
+    path: /home/admin/httpd_conf
     state: directory
+    owner: admin
+    group: admin
     mode: 0755
 
-- name: Copier nginx.conf dans /opt/nginx
+- name: Copier le httpd.conf personnalisé sur la VM
   copy:
-    src: nginx.conf
-    dest: /opt/nginx/nginx.conf
+    src: httpd.conf
+    dest: /home/admin/httpd_conf/httpd.conf
+    owner: admin
+    group: admin
     mode: 0644
 
-- name: Lancer le conteneur proxy
+- name: Lancer le conteneur httpd en montant le httpd.conf
   docker_container:
-    name: my_proxy
-    image: nginx:alpine
+    name: httpd
+    image: httpd:latest
+    state: started
+    restart_policy: always
     ports:
-      - "8080:80"
-    volumes:
-      - /opt/nginx:/etc/nginx:ro       # 🟢 ICI : on monte un dossier vers un dossier
+      - "80:80"
     networks:
       - name: myapp_network
-    restart_policy: always
-    state: started
-  vars:
-    ansible_python_interpreter: /usr/bin/python3
+    volumes:
+      # Montre le fichier host vers l'intérieur du conteneur
+      - /home/admin/httpd_conf/httpd.conf:/usr/local/apache2/conf/httpd.conf:ro
